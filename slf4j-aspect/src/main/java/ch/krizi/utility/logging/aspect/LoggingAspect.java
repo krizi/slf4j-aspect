@@ -52,7 +52,7 @@ public class LoggingAspect {
 		} catch (Throwable t) {
 			exceptionThrown = true;
 			if (logger.isTraceEnabled()) {
-				logger.trace("Method throws Exception [{}]", methodName, t);
+				logger.trace("Method [{}] throws Exception [{}]", methodName, t);
 			}
 			if (log.logError()) {
 				LevelLogger errorLogger = LevelLoggerFactory.createLogger(log.errorLevel(), type);
