@@ -27,7 +27,7 @@ public class LoggingAspect {
 	private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
 	@Around("execution(* *(..)) && @annotation(log)")
-	public Object aroundMethod(ProceedingJoinPoint joinPoint, Log log) throws ClassNotFoundException {
+	public Object aroundMethod(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
 		String methodName = signature.getName();
@@ -58,7 +58,7 @@ public class LoggingAspect {
 				LevelLogger errorLogger = LevelLoggerFactory.createLogger(log.errorLevel(), type);
 				errorLogger.log("Method [{}] throws unexpected error", methodName, t);
 			}
-			return null;
+			throw t;
 		} finally {
 			if (log.logBeginEnd()) {
 				if (!isVoid(signature) && !exceptionThrown) {

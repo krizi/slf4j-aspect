@@ -28,7 +28,7 @@ public class LoggingTest {
 		myMethod(999999999);
 	}
 
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testThrowError() {
 		throwError();
 	}
