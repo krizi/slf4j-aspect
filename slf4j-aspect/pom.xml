@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.krizi.utility.logging.aspect</groupId>
 	<artifactId>slf4j-aspect</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<name>SLF4J-Aspect</name>
 	<description>Aspect Oriented Logging</description>
 
@@ -11,35 +10,34 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-
-		<slf4j-api.version>1.6.6</slf4j-api.version>
-		<aspectj.version>1.6.11</aspectj.version>
-		<junit.version>4.10</junit.version>
 	</properties>
+
+	<parent>
+		<groupId>ch.krizi.utility.logging.aspect</groupId>
+		<artifactId>slf4j-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j-api.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjtools</artifactId>
-			<version>${aspectj.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j-api.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
