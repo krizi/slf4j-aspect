@@ -1,0 +1,1 @@
+[![Build Status](https://buildhive.cloudbees.com/job/krizi/job/slf4j-aspect/badge/icon)](https://buildhive.cloudbees.com/job/krizi/job/slf4j-aspect/)
