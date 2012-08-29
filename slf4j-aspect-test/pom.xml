@@ -15,36 +15,39 @@
 		<slf4j-api.version>1.6.6</slf4j-api.version>
 		<aspectj.version>1.6.11</aspectj.version>
 		<junit.version>4.10</junit.version>
+		<slf4j-aspect.version>${project.version}</slf4j-aspect.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjtools</artifactId>
-			<version>${aspectj.version}</version>
-			<scope>compile</scope>
+			<groupId>ch.krizi.utility.logging.aspect</groupId>
+			<artifactId>slf4j-aspect</artifactId>
+			<version>${slf4j-aspect.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
+			<artifactId>aspectjtools</artifactId>
 			<version>${aspectj.version}</version>
-			<scope>test</scope>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-api.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.krizi.utility.logging.aspect</groupId>
-			<artifactId>slf4j-aspect</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -55,12 +58,8 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.4</version>
 				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
 					<encoding>utf-8</encoding>
 					<complianceLevel>1.6</complianceLevel>
-					<verbose>true</verbose>
-					<showWeaveInfo>true</showWeaveInfo>
 					<weaveDependencies>
 						<weaveDependency>
 							<groupId>ch.krizi.utility.logging.aspect</groupId>
@@ -71,7 +70,6 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>aspectj-report</goal>
 							<goal>compile</goal>
 							<goal>test-compile</goal>
 						</goals>
