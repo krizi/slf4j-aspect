@@ -18,10 +18,43 @@
 		<junit.version>4.10</junit.version>
 	</properties>
 
+	<scm>
+		<url>https://github.com/krizi/slf4j-aspect</url>
+		<connection>scm:git:git://github.com/krizi/slf4j-aspect.git</connection>
+		<developerConnection>scm:git:git@github.com:krizi/slf4j-aspect</developerConnection>
+	</scm>
+
 	<modules>
 		<module>slf4j-aspect</module>
 		<module>slf4j-aspect-test</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencyManagement>
 		<dependencies>
