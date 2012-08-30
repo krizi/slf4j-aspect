@@ -26,6 +26,25 @@ public class LoggingAspect {
 
 	private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
+	@Around("execution(public * *(..)) && within(@annotation(ch.krizi.utility.logging.annotation.LogAll) *)")
+	public Object aroundAllMethods(ProceedingJoinPoint joinPoint) throws Throwable {
+		try {
+			if (logger.isTraceEnabled()) {
+				logger.trace("begin annotated method");
+			}
+			return joinPoint.proceed();
+		} catch (Throwable t) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("after annotated method with exception");
+			}
+			throw t;
+		} finally {
+			if (logger.isTraceEnabled()) {
+				logger.trace("after annotated method");
+			}
+		}
+	}
+
 	@Around("execution(* *(..)) && @annotation(log)")
 	public Object aroundMethod(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
