@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.krizi.utility.logging.annotation.Log;
+import ch.krizi.utility.logging.annotation.LogAll;
 import ch.krizi.utility.logging.logger.LevelLogger;
 import ch.krizi.utility.logging.logger.factory.LevelLoggerFactory;
 
@@ -26,23 +27,9 @@ public class LoggingAspect {
 
 	private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-	@Around("execution(public * *(..)) && within(@annotation(ch.krizi.utility.logging.annotation.LogAll) *)")
-	public Object aroundAllMethods(ProceedingJoinPoint joinPoint) throws Throwable {
-		try {
-			if (logger.isTraceEnabled()) {
-				logger.trace("begin annotated method");
-			}
-			return joinPoint.proceed();
-		} catch (Throwable t) {
-			if (logger.isTraceEnabled()) {
-				logger.trace("after annotated method with exception");
-			}
-			throw t;
-		} finally {
-			if (logger.isTraceEnabled()) {
-				logger.trace("after annotated method");
-			}
-		}
+	@Around("execution(* *(..)) && @within(logAll) && !@annotation(ch.krizi.utility.logging.annotation.Log)")
+	public Object aroundAllMethods(ProceedingJoinPoint joinPoint, LogAll logAll) throws Throwable {
+		return aroundMethod(joinPoint, logAll.log());
 	}
 
 	@Around("execution(* *(..)) && @annotation(log)")
