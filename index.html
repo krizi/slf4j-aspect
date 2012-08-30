@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Slf4j-aspect by krizi</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Slf4j-aspect</h1>
+        <p>Aspect matched by Annotations to Log Methods, FIelds, etc… </p>
+
+        <p class="view"><a href="https://github.com/krizi/slf4j-aspect">View the Project on GitHub <small>krizi/slf4j-aspect</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/krizi/slf4j-aspect/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/krizi/slf4j-aspect/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/krizi/slf4j-aspect">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Log Methods with Annoations</h1>
+
+<h2>How to Use</h2>
+
+<pre><code>@Log
+private Integer myMethod(int aNumber, String aString) {
+    return 9;
+}
+</code></pre>
+
+<h2>Generated Logs</h2>
+
+<pre><code>11 [main] TRACE ch.krizi.utility.logging.LoggingTest  - begin Method [myMethod] with Parameter=[aNumber=3, aString=value]
+11 [main] TRACE ch.krizi.utility.logging.LoggingTest  - end Method [myMethod] return=[9]
+</code></pre>
+
+<h2>Log Annotation</h2>
+
+<pre><code>Level level() default Level.Trace;
+Level errorLevel() default Level.Error;
+String message() default "";
+boolean logBeginEnd() default true;
+boolean logArguments() default true;
+boolean logError() default true;
+</code></pre>
+
+<h2>Maven Dependecy</h2>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;ch.krizi.utility.logging.aspect&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-aspect&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h2>Compile Time Weaving</h2>
+
+<h3>Dependency</h3>
+
+<pre><code>&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+        &lt;artifactId&gt;aspectjtools&lt;/artifactId&gt;
+        &lt;version&gt;1.6.11&lt;/version&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+        &lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;
+        &lt;version&gt;1.6.11&lt;/version&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- Any Logger --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+        &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+
+<h3>Plugin Definition</h3>
+
+<pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+            &lt;artifactId&gt;aspectj-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;1.4&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;encoding&gt;${project.build.sourceEncoding}&lt;/encoding&gt;
+                &lt;complianceLevel&gt;1.6&lt;/complianceLevel&gt;
+                &lt;weaveDependencies&gt;
+                    &lt;weaveDependency&gt;
+                        &lt;groupId&gt;ch.krizi.utility.logging.aspect&lt;/groupId&gt;
+                        &lt;artifactId&gt;slf4j-aspect&lt;/artifactId&gt;
+                    &lt;/weaveDependency&gt;
+                &lt;/weaveDependencies&gt;
+            &lt;/configuration&gt;
+            &lt;executions&gt;
+                &lt;execution&gt;
+                    &lt;goals&gt;
+                        &lt;goal&gt;compile&lt;/goal&gt;
+                        &lt;goal&gt;test-compile&lt;/goal&gt;
+                    &lt;/goals&gt;
+                &lt;/execution&gt;
+            &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/krizi">krizi</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
