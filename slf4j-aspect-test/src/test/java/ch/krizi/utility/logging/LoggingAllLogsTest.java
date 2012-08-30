@@ -9,7 +9,7 @@ import org.junit.Test;
  * @author krizi
  * 
  */
-public class LoggingAllLogs {
+public class LoggingAllLogsTest {
 
 	@Test
 	public void testMyMethod() {
