@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +30,35 @@ public class LoggingAspect {
 
 	private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-	@Around("execution(* *(..)) && @within(logAll) && !@annotation(ch.krizi.utility.logging.annotation.Log)")
-	public Object aroundAllMethods(ProceedingJoinPoint joinPoint, LogAll logAll) throws Throwable {
-		return aroundMethod(joinPoint, logAll.log());
+	@Pointcut("execution(* *(..))")
+	public void anyMethod() {
 	}
 
-	@Around("execution(* *(..)) && @annotation(log)")
-	public Object aroundMethod(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
-		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+	@Pointcut("!@annotation(ch.krizi.utility.logging.annotation.Log)")
+	public void notLogAnnotaion() {
+	}
 
+	@Around("anyMethod() && @within(logAll) && notLogAnnotaion()")
+	public Object aroundAllMethods(ProceedingJoinPoint joinPoint, LogAll logAll) throws Throwable {
+		try {
+			if (logger.isTraceEnabled()) {
+				logger.trace("begin aroundAllMethods");
+			}
+			return aroundMethod(joinPoint, logAll.log());
+		} finally {
+			if (logger.isTraceEnabled()) {
+				logger.trace("end aroundAllMethods");
+			}
+		}
+	}
+
+	@Around("anyMethod() && @annotation(log)")
+	public Object aroundMethod(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
+		return proceedJoinPoint(joinPoint, log);
+	}
+
+	private Object proceedJoinPoint(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
+		Signature signature = joinPoint.getSignature();
 		String methodName = signature.getName();
 		if (logger.isTraceEnabled()) {
 			logger.trace("before Method [{}]", methodName);
@@ -46,7 +69,7 @@ public class LoggingAspect {
 		boolean exceptionThrown = false;
 		try {
 			if (log.logBeginEnd()) {
-				List<MethodParameter> methodParameter = createMethodParameter(signature, joinPoint.getArgs());
+				List<MethodParameter> methodParameter = createParameter(signature, joinPoint.getArgs());
 				if (log.logArguments() && !methodParameter.isEmpty()) {
 					classLogger.log("begin Method [{}] with Parameter={}", methodName, methodParameter);
 				} else {
@@ -79,8 +102,12 @@ public class LoggingAspect {
 		}
 	}
 
-	private boolean isVoid(MethodSignature signature) {
-		return "void".equals(signature.getReturnType().toString());
+	private boolean isVoid(Signature signature) {
+		if (signature instanceof MethodSignature) {
+			MethodSignature methodSignature = (MethodSignature) signature;
+			return "void".equals(methodSignature.getReturnType().toString());
+		}
+		return false;
 	}
 
 	/**
@@ -90,11 +117,16 @@ public class LoggingAspect {
 	 * @param objects
 	 * @return
 	 */
-	private List<MethodParameter> createMethodParameter(MethodSignature signatur, Object[] objects) {
+	private List<MethodParameter> createParameter(Signature signatur, Object[] objects) {
 		List<MethodParameter> params = new ArrayList<MethodParameter>();
-		for (int i = 0; i < objects.length; i++) {
-			params.add(new MethodParameter(objects[i], signatur.getParameterTypes()[i], signatur.getParameterNames()[i]));
+		if (signatur instanceof CodeSignature) {
+			CodeSignature codeSignature = (CodeSignature) signatur;
+			for (int i = 0; i < objects.length; i++) {
+				params.add(new MethodParameter(objects[i], codeSignature.getParameterTypes()[i], codeSignature
+						.getParameterNames()[i]));
+			}
 		}
 		return params;
+
 	}
 }
