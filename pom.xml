@@ -31,12 +31,23 @@
 		<developerConnection>scm:git:git@github.com:krizi/slf4j-aspect.git</developerConnection>
 	</scm>
 
+	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>http://krizi.github.com/slf4j-aspect/mvn-site</url>
+		</site>
+	</distributionManagement>
+
 	<developers>
 		<developer>
 			<id>krizi</id>
 			<name>Almir Krizevac</name>
 			<email>krazy2krizi@gmail.com</email>
 			<url>https://github.com/krizi</url>
+			<timezone>0</timezone>
+			<roles>
+				<role>Developer</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -90,30 +101,24 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>com.github.github</groupId>
-					<artifactId>downloads-maven-plugin</artifactId>
-					<version>0.6</version>
-					<configuration>
-						<description>${project.version} release of ${project.name}</description>
-						<override>true</override>
-						<includeAttached>true</includeAttached>
-					</configuration>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.2.1</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Pofficial-release</arguments>
-						<goals>deploy site ghDownloads:upload</goals>
+						<arguments>-Pofficial-release -PgithubUpload</arguments>
+						<goals>clean deploy site ghSite:site</goals>
 					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.0</version>
+					<configuration>
+						<locales>en,fr,de</locales>
+						<relativizeDecorationLinks>false</relativizeDecorationLinks>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>com.github.github</groupId>
@@ -122,19 +127,11 @@
 					<configuration>
 						<message>Generated site for ${project.name}
 							${project.version}</message>
-						<path>mvn-site</path>
+						<path>mvn-site/${project.version}</path>
 						<repositoryName>slf4j-aspect</repositoryName>
 						<repositoryOwner>krizi</repositoryOwner>
 						<merge>true</merge>
 					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>site</goal>
-							</goals>
-							<phase>site</phase>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -189,8 +186,35 @@
 		</plugins>
 	</build>
 
-
 	<profiles>
+		<profile>
+			<id>githubUpload</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>downloads-maven-plugin</artifactId>
+						<version>0.6</version>
+						<configuration>
+							<description>Official ${project.name} build of the
+								${project.version} release</description>
+							<override>true</override>
+							<includeAttached>true</includeAttached>
+							<repositoryName>slf4j-aspect</repositoryName>
+							<repositoryOwner>krizi</repositoryOwner>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<phase>install</phase>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>official-release</id>
 			<build>
