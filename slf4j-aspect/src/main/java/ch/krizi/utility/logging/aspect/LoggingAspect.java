@@ -40,16 +40,7 @@ public class LoggingAspect {
 
 	@Around("anyMethod() && @within(logAll) && notLogAnnotaion()")
 	public Object aroundAllMethods(ProceedingJoinPoint joinPoint, LogAll logAll) throws Throwable {
-		try {
-			if (logger.isTraceEnabled()) {
-				logger.trace("begin aroundAllMethods");
-			}
-			return aroundMethod(joinPoint, logAll.log());
-		} finally {
-			if (logger.isTraceEnabled()) {
-				logger.trace("end aroundAllMethods");
-			}
-		}
+		return aroundMethod(joinPoint, logAll.log());
 	}
 
 	@Around("anyMethod() && @annotation(log)")
