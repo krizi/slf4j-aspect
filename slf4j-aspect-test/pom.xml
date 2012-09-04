@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.krizi.utility.logging.aspect</groupId>
 	<artifactId>slf4j-aspect-test</artifactId>
-	<name>SLF4J-Aspect</name>
+	<name>SLF4J-Aspect-Test</name>
 	<description>Aspect Oriented Logging (Integration Test)</description>
 
 	<properties>
@@ -54,7 +54,7 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.4</version>
 				<configuration>
-					<encoding>utf-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<complianceLevel>1.6</complianceLevel>
 					<weaveDependencies>
 						<weaveDependency>
