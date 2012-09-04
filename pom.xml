@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.krizi.utility.logging.aspect</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>SLF4J-Aspect-Parent</name>
 	<packaging>pom</packaging>
 	<description>Aspect Oriented Logging</description>
