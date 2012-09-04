@@ -107,7 +107,7 @@
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<useReleaseProfile>false</useReleaseProfile>
 						<arguments>-Pofficial-release</arguments>
-						<goals>deploy site ghDownload</goals>
+						<goals>deploy site ghDownloads:upload</goals>
 					</configuration>
 				</plugin>
 				<plugin>
