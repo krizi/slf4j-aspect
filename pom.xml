@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.krizi.utility.logging.aspect</groupId>
 	<artifactId>slf4j-parent</artifactId>
@@ -6,6 +7,12 @@
 	<name>SLF4J-Aspect-Parent</name>
 	<packaging>pom</packaging>
 	<description>Aspect Oriented Logging</description>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,11 +31,14 @@
 		<developerConnection>scm:git:git@github.com:krizi/slf4j-aspect.git</developerConnection>
 	</scm>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+	<developers>
+		<developer>
+			<id>krizi</id>
+			<name>Almir Krizevac</name>
+			<email>krazy2krizi@gmail.com</email>
+			<url>https://github.com/krizi</url>
+		</developer>
+	</developers>
 
 	<modules>
 		<module>slf4j-aspect</module>
@@ -82,54 +92,160 @@
 				<plugin>
 					<groupId>com.github.github</groupId>
 					<artifactId>downloads-maven-plugin</artifactId>
-					<version>0.5</version>
+					<version>0.6</version>
 					<configuration>
 						<description>${project.version} release of ${project.name}</description>
 						<override>true</override>
 						<includeAttached>true</includeAttached>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.2.1</version>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<useReleaseProfile>false</useReleaseProfile>
+						<arguments>-Pofficial-release</arguments>
+						<goals>deploy site ghDownload</goals>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.0</version>
+				</plugin>
+				<plugin>
+					<groupId>com.github.github</groupId>
+					<artifactId>site-maven-plugin</artifactId>
+					<version>0.7</version>
+					<configuration>
+						<message>Generated site for ${project.name}
+							${project.version}</message>
+						<path>mvn-site</path>
+						<repositoryName>slf4j-aspect</repositoryName>
+						<repositoryOwner>krizi</repositoryOwner>
+						<merge>true</merge>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>site</goal>
+							</goals>
+							<phase>site</phase>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.2.1</version>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8</version>
 				<executions>
 					<execution>
-						<id>default</id>
 						<goals>
-							<goal>perform</goal>
+							<goal>jar</goal>
 						</goals>
-						<configuration>
-							<pomFileName>slf4j-aspect/pom.xml</pomFileName>
-						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- avoiding javadoc warnings caused by Mojo annotations -->
+					<tagletArtifacts>
+						<tagletArtifact>
+							<groupId>org.apache.maven.plugin-tools</groupId>
+							<artifactId>maven-plugin-tools-javadoc</artifactId>
+							<version>2.9</version>
+						</tagletArtifact>
+					</tagletArtifacts>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.7</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
-					<branch>refs/heads/mvn-site</branch>
-					<message>Creating site for ${project.name}-${project.version}</message>
-					<merge>true</merge>
-					<repositoryName>slf4j-aspect</repositoryName>
-					<repositoryOwner>krizi</repositoryOwner>
-					<merge>true</merge>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>site</phase>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<profiles>
+		<profile>
+			<id>official-release</id>
+			<build>
+				<plugins>
+					<!-- We want to sign the artifact, the POM, and all attached artifacts -->
+					<plugin>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<configuration>
+							<useAgent>true</useAgent>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- We want to deploy the artifact to a staging location for perusal -->
+					<plugin>
+						<inherited>true</inherited>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<configuration>
+							<updateReleaseInfo>true</updateReleaseInfo>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<encoding>${project.build.sourceEncoding}</encoding>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
