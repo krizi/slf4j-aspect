@@ -17,7 +17,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                SLF4J-Aspect-Test
+                SLF4J-Aspect-Parent
                 </div>
                     <div class="clear">
         <hr/>
@@ -30,7 +30,7 @@
         <span id="publishDate">Zuletzt Publiziert: 2012-09-05</span>
                   &nbsp;| <span id="projectVersion">Version: 1.0.1-SNAPSHOT</span>
                       </div>
-            <div class="xright">                    <a href="http://nexus.sonatype.org/oss-repository-hosting.html/slf4j-parent/slf4j-aspect-test" class="externalLink" title="SLF4J-Aspect-Test">SLF4J-Aspect-Test</a>
+            <div class="xright">                    <a href="http://nexus.sonatype.org/oss-repository-hosting.html/slf4j-parent" class="externalLink" title="SLF4J-Aspect-Parent">SLF4J-Aspect-Parent</a>
               
         
       </div>
@@ -42,15 +42,18 @@
       <div id="navcolumn">
              
         
-                                <h5>übergeordnetes Projekt</h5>
+                                          <h5>Module</h5>
                   <ul>
                   <li class="none">
-                          <a href="../index.html" title="SLF4J-Aspect-Parent">SLF4J-Aspect-Parent</a>
+                          <a href="slf4j-aspect/index.html" title="SLF4J-Aspect">SLF4J-Aspect</a>
+            </li>
+                  <li class="none">
+                          <a href="slf4j-aspect-test/index.html" title="SLF4J-Aspect-Test">SLF4J-Aspect-Test</a>
             </li>
           </ul>
                        <h5>Projektdokumentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                                                                          <li class="expanded">
+                                                                                                                                                                                                                                                                                                                                                            <li class="expanded">
                           <a href="project-info.html" title="Projektinformationen">Projektinformationen</a>
                     <ul>
                       <li class="none">
@@ -87,6 +90,9 @@
                           <a href="license.html" title="Projektlizenz">Projektlizenz</a>
             </li>
                       <li class="none">
+                          <a href="modules.html" title="Projekt Module">Projekt Module</a>
+            </li>
+                      <li class="none">
                           <a href="dependency-management.html" title="Abhängigkeitsverwaltung">Abhängigkeitsverwaltung</a>
             </li>
                       <li class="none">
@@ -112,13 +118,14 @@
       <div id="contentBox">
         <div class="section"><h2>report.dependency-info.title<a name="report.dependency-info.title"></a></h2><a name="report.dependency-info.title"></a><div class="section"><h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a><div class="source"><pre>&lt;dependency&gt;
   &lt;groupId&gt;ch.krizi.utility.logging.aspect&lt;/groupId&gt;
-  &lt;artifactId&gt;slf4j-aspect-test&lt;/artifactId&gt;
+  &lt;artifactId&gt;slf4j-parent&lt;/artifactId&gt;
   &lt;version&gt;1.0.1-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;</pre></div></div><div class="section"><h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a><div class="source"><pre>'ch.krizi.utility.logging.aspect:slf4j-aspect-test:jar:1.0.1-SNAPSHOT'</pre></div></div><div class="section"><h3>Apache Ant<a name="Apache_Ant"></a></h3><a name="Apache_Ant"></a><div class="source"><pre>&lt;dependency org=&quot;ch.krizi.utility.logging.aspect&quot; name=&quot;slf4j-aspect-test&quot; rev=&quot;1.0.1-SNAPSHOT&quot;&gt;
-  &lt;artifact name=&quot;slf4j-aspect-test&quot; type=&quot;jar&quot; /&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</pre></div></div><div class="section"><h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a><div class="source"><pre>'ch.krizi.utility.logging.aspect:slf4j-parent:pom:1.0.1-SNAPSHOT'</pre></div></div><div class="section"><h3>Apache Ant<a name="Apache_Ant"></a></h3><a name="Apache_Ant"></a><div class="source"><pre>&lt;dependency org=&quot;ch.krizi.utility.logging.aspect&quot; name=&quot;slf4j-parent&quot; rev=&quot;1.0.1-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;slf4j-parent&quot; type=&quot;pom&quot; /&gt;
 &lt;/dependency&gt;</pre></div></div><div class="section"><h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a><div class="source"><pre>@Grapes(
-@Grab(group='ch.krizi.utility.logging.aspect', module='slf4j-aspect-test', version='1.0.1-SNAPSHOT')
-)</pre></div></div><div class="section"><h3>Grails<a name="Grails"></a></h3><a name="Grails"></a><div class="source"><pre>compile 'ch.krizi.utility.logging.aspect:slf4j-aspect-test:1.0.1-SNAPSHOT'</pre></div></div><div class="section"><h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a><div class="source"><pre>[ch.krizi.utility.logging.aspect/slf4j-aspect-test &quot;1.0.1-SNAPSHOT&quot;]</pre></div></div><div class="section"><h3>SBT<a name="SBT"></a></h3><a name="SBT"></a><div class="source"><pre>libraryDependencies += &quot;ch.krizi.utility.logging.aspect&quot; %% &quot;slf4j-aspect-test&quot; % &quot;1.0.1-SNAPSHOT&quot;</pre></div></div></div>
+@Grab(group='ch.krizi.utility.logging.aspect', module='slf4j-parent', version='1.0.1-SNAPSHOT')
+)</pre></div></div><div class="section"><h3>Grails<a name="Grails"></a></h3><a name="Grails"></a><div class="source"><pre>compile 'ch.krizi.utility.logging.aspect:slf4j-parent:1.0.1-SNAPSHOT'</pre></div></div><div class="section"><h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a><div class="source"><pre>[ch.krizi.utility.logging.aspect/slf4j-parent &quot;1.0.1-SNAPSHOT&quot;]</pre></div></div><div class="section"><h3>SBT<a name="SBT"></a></h3><a name="SBT"></a><div class="source"><pre>libraryDependencies += &quot;ch.krizi.utility.logging.aspect&quot; %% &quot;slf4j-parent&quot; % &quot;1.0.1-SNAPSHOT&quot;</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
