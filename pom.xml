@@ -116,7 +116,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.0</version>
 					<configuration>
-						<locales>en,fr,de</locales>
+						<locales>en,de</locales>
 						<relativizeDecorationLinks>false</relativizeDecorationLinks>
 					</configuration>
 				</plugin>
