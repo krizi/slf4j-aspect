@@ -105,9 +105,10 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.2.1</version>
 					<configuration>
-						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<mavenExecutorId>forked-path</mavenExecutorId>
 						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Pofficial-release -PgithubUpload</arguments>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<arguments>-Psonatype-oss-release -Pofficial-release -PgithubUpload</arguments>
 						<goals>clean deploy site ghSite:site</goals>
 					</configuration>
 				</plugin>
@@ -220,20 +221,32 @@
 			<build>
 				<plugins>
 					<!-- We want to sign the artifact, the POM, and all attached artifacts -->
+<!-- 					<plugin> -->
+<!-- 						<artifactId>maven-gpg-plugin</artifactId> -->
+<!-- 						<configuration> -->
+<!-- 							<useAgent>true</useAgent> -->
+<!-- 						</configuration> -->
+<!-- 						<executions> -->
+<!-- 							<execution> -->
+<!-- 								<id>sign-artifacts</id> -->
+<!-- 								<phase>verify</phase> -->
+<!-- 								<goals> -->
+<!-- 									<goal>sign</goal> -->
+<!-- 								</goals> -->
+<!-- 							</execution> -->
+<!-- 						</executions> -->
+<!-- 					</plugin> -->
 					<plugin>
-						<artifactId>maven-gpg-plugin</artifactId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
 						<configuration>
-							<useAgent>true</useAgent>
+							<sigfile>/Users/krizi/Desktop/sonatype.asc</sigfile>
+<!-- 							<storetype>${keystore.type}</storetype> -->
+<!-- 							<keystore>${keystore.path}</keystore> -->
+							<alias>release</alias>
+<!-- 							<storepass>${keystore.store.password}</storepass> -->
+<!-- 							<keypass>${keystore.key.password}</keypass> -->
 						</configuration>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
