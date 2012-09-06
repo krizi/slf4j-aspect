@@ -23,6 +23,7 @@
 		<aspectj.version>1.6.11</aspectj.version>
 		<junit.version>4.10</junit.version>
 		<github.global.server>github</github.global.server>
+		<jenkins.url>https://krizi.ci.cloudbees.com/</jenkins.url>
 	</properties>
 
 	<scm>
@@ -108,7 +109,8 @@
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<useReleaseProfile>false</useReleaseProfile>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
-						<arguments>-Psonatype-oss-release -Pofficial-release -PgithubUpload</arguments>
+						<arguments>-Psonatype-oss-release -Pofficial-release
+							-PgithubUpload</arguments>
 						<goals>clean deploy site ghSite:site</goals>
 					</configuration>
 				</plugin>
@@ -221,31 +223,31 @@
 			<build>
 				<plugins>
 					<!-- We want to sign the artifact, the POM, and all attached artifacts -->
-<!-- 					<plugin> -->
-<!-- 						<artifactId>maven-gpg-plugin</artifactId> -->
-<!-- 						<configuration> -->
-<!-- 							<useAgent>true</useAgent> -->
-<!-- 						</configuration> -->
-<!-- 						<executions> -->
-<!-- 							<execution> -->
-<!-- 								<id>sign-artifacts</id> -->
-<!-- 								<phase>verify</phase> -->
-<!-- 								<goals> -->
-<!-- 									<goal>sign</goal> -->
-<!-- 								</goals> -->
-<!-- 							</execution> -->
-<!-- 						</executions> -->
-<!-- 					</plugin> -->
+					<!-- <plugin> -->
+					<!-- <artifactId>maven-gpg-plugin</artifactId> -->
+					<!-- <configuration> -->
+					<!-- <useAgent>true</useAgent> -->
+					<!-- </configuration> -->
+					<!-- <executions> -->
+					<!-- <execution> -->
+					<!-- <id>sign-artifacts</id> -->
+					<!-- <phase>verify</phase> -->
+					<!-- <goals> -->
+					<!-- <goal>sign</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- </executions> -->
+					<!-- </plugin> -->
 					<plugin>
 						<artifactId>maven-jarsigner-plugin</artifactId>
 						<version>1.2</version>
 						<configuration>
 							<sigfile>/Users/krizi/Desktop/sonatype.asc</sigfile>
-<!-- 							<storetype>${keystore.type}</storetype> -->
-<!-- 							<keystore>${keystore.path}</keystore> -->
+							<!-- <storetype>${keystore.type}</storetype> -->
+							<!-- <keystore>${keystore.path}</keystore> -->
 							<alias>release</alias>
-<!-- 							<storepass>${keystore.store.password}</storepass> -->
-<!-- 							<keypass>${keystore.key.password}</keypass> -->
+							<!-- <storepass>${keystore.store.password}</storepass> -->
+							<!-- <keypass>${keystore.key.password}</keypass> -->
 						</configuration>
 					</plugin>
 				</plugins>
@@ -285,6 +287,50 @@
 								<goals>
 									<goal>jar</goal>
 								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>create-job</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.goldin</groupId>
+						<artifactId>jenkins-maven-plugin</artifactId>
+						<version>0.2.5</version>
+						<executions>
+							<execution>
+								<id>generate-jenkins-jobs</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<generationPom>https://github.com/krizi/slf4j-aspect.git/pom.xml</generationPom>
+									<jenkinsUrl>https://krizi.ci.cloudbees.com//</jenkinsUrl>
+									<outputDirectory>${user.home}/.jenkins/jobs</outputDirectory>
+									<jobs>
+										<job>
+											<id>default</id>
+											<abstract>true</abstract>											
+											<mavenName>apache-maven-3</mavenName>
+											<jdkName>jdk1.6.0</jdkName>
+										</job>
+									
+										<job>
+											<parent>default</parent>
+											<id>${job.name}</id>
+											<scmType>git</scmType>
+											<repository>
+												<remote>git://github.com/krizi/slf4j-aspect.git</remote>
+											</repository>
+										</job>
+									</jobs>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
