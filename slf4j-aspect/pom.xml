@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>ch.krizi.utility.logging.aspect</groupId>
 		<artifactId>slf4j-parent</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.0.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
